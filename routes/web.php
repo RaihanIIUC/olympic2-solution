@@ -17,4 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/download', [QueryController::class, 'qeuryByDate'])->name('download');
+Route::post('/download', [QueryController::class, 'queryByDate'])->name('download');

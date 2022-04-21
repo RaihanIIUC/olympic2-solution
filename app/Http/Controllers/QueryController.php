@@ -6,17 +6,9 @@ use Illuminate\Http\Request;
 
 class QueryController extends Controller
 {
-    public function qeuryByDate(Request $request)
+
+    public static function CurlHandler($queryData)
     {
-        $starts_at = date('Y-m-d', strtotime($request->start));
-        $ends_at = date('Y-m-d', strtotime($request->end));
-
-        $queryData = [
-            "start_at" => $starts_at,
-            "end_at" => $ends_at
-        ];
-
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -34,8 +26,32 @@ class QueryController extends Controller
             ),
         ));
 
-        $response = curl_exec($curl);
+        $PreResponse = curl_exec($curl);
+        $response = json_decode($PreResponse, true);
         curl_close($curl);
-        echo $response;
+        return  $response;
+    }
+
+
+    public static function formatHandler($request)
+    {
+        $starts_at = date('Y-m-d', strtotime($request->start));
+        $ends_at = date('Y-m-d', strtotime($request->end));
+
+        $queryData = [
+            "start_at" => $starts_at,
+            "end_at" => $ends_at
+        ];
+        return $queryData;
+    }
+
+
+    public function queryByDate(Request $request)
+    {
+        $queryData =   QueryController::formatHandler($request);
+
+        $response =   QueryController::CurlHandler($queryData);
+
+        return SmsController::DataForOlympic2Handler($response);
     }
 }

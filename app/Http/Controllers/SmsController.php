@@ -10,7 +10,8 @@ class SmsController extends Controller
 
     public  static function dataStoreProcess($item)
     {
-        Sms::create([
+        Sms::firstOrCreate([
+            'aws_sent_sms_id' => $item['id'],
             'applicationId' => $item['applicationId'],
             'message' => $item['message'],
             'sourceAddress' => $item['sourceAddress'],

@@ -55,10 +55,46 @@
                         </div>
                     </form>
                 </div>
-            </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title m-b-0">Table In our hand {{ $total }}</h5>
+                        </div>
 
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">SL</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">sourceAddress</th>
+
+                                        <th scope="col">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="customtable">
+                                    @foreach($sms as $s)
+                                    <tr>
+                                        <td>{{ $s->id }}</td>
+                                        <td>{{ $s->message}}</td>
+                                        <td>{{ $s->sourceAddress}}</td>
+
+                                        <th><span class="btn btn-success">Re-Pull</span> </th>
+                                    </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                            {{ $sms->links() }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
 
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\QueryController;
+use App\Http\Controllers\UploadFailedController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [UploadFailedController::class, 'FailedIndex']);
 Route::post('/download', [QueryController::class, 'queryByDate'])->name('download');

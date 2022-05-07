@@ -42,10 +42,34 @@ class Core
             ),
         ));
 
-        $response = curl_exec($curl);
+        $preparedResponse = curl_exec($curl);
+
+        $response = json_decode($preparedResponse, true);
 
         curl_close($curl);
-        echo $response;
+        return $response;
+    }
+
+
+    public static function StatusUpdateHandler($sendChecker, $sms)
+    {
+        $statusCode =
+            $sendChecker['statusCode'];
+
+
+        if ($statusCode == 'S1000') {
+            echo 'win';
+
+            return   $sms->update([
+                'status' => 1
+            ]);
+        } else {
+            echo 'failed';
+
+            return  $sms->update([
+                'status' => -1
+            ]);
+        }
     }
 
 
@@ -56,17 +80,7 @@ class Core
         foreach ($smses as $key => $sms) {
             $sanitizedData =    Core::formatHandler($sms);
             $sendChecker =     Core::sendRequest($sanitizedData);
-
-            // if ($sendChecker) {
-            //     // update status = 1
-            // } else {
-            //     // update status = -1
-            //     // also update retry count
-            // }
+            Core::StatusUpdateHandler($sendChecker, $sms);
         }
-        return $smses;
-
-        // $sanitizedData =    Core::formatHandler($smses);
-        // return Core::sendRequest($sanitizedData);
     }
 }

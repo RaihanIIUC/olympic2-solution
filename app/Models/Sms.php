@@ -11,6 +11,6 @@ class Sms extends Model
 
 
     protected $fillable = [
-        'aws_sent_sms_id', 'status', 'retry_count', 'applicationId', 'message', 'sourceAddress', 'requestId', 'created_at'
+        'aws_sent_sms_id', 'status', 'retry_count', 'applicationId', 'message', 'sourceAddress', 'encoding', 'version', 'requestId', 'created_at'
     ];
 }

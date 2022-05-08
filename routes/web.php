@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UploadFailedController::class, 'FailedIndex']);
 Route::post('/download', [QueryController::class, 'queryByDate'])->name('download');
+
+
+Route::get('/repush/{smsid}', [UploadFailedController::class, 'updateFailedSms'])->name('repush');

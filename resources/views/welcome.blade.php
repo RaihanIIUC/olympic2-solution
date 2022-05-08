@@ -58,7 +58,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body text-center">
-                            <h5 class="card-title m-b-0">Table In our hand </h5>
+                            <h5 class="card-title m-b-0">Table In our hand {{ $count }}</h5>
                         </div>
 
                         <div class="table-responsive">
@@ -75,13 +75,19 @@
                                 </thead>
                                 <tbody class="customtable">
                                     @foreach($sms as $s)
-                                    <tr>
-                                        <td>{{ $s->id }}</td>
-                                        <td>{{ $s->message}}</td>
-                                        <td>{{ $s->sourceAddress}}</td>
+                                    <form action="{{ route('repush',[$s->id]) }}" method="get">
+                                        @csrf
 
-                                        <th><span class="btn btn-success">Re-Pull</span> </th>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $s->id }}</td>
+                                            <td>{{ $s->message}}</td>
+                                            <td>{{ $s->sourceAddress}}</td>
+
+                                            <th><button type="submit" class="btn btn-success">Re-Pull</span> </th>
+                                        </tr>
+
+                                    </form>
+
                                     @endforeach
 
                                 </tbody>

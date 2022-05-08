@@ -54,7 +54,7 @@ class Core
     public static function StatusUpdateHandler($sendChecker, $sms)
     {
         $statusCode =
-            $sendChecker['statusCode'];
+            $sendChecker['statusCode'] ?? \null;
         $retry  = ++$sms->retry_count;
 
 

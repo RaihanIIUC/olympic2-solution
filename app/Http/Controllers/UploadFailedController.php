@@ -15,14 +15,20 @@ class UploadFailedController extends Controller
 
         // pagination requirements
         // orwhere retry count is less than equal 5 requirements
-        $sms = Sms::where('status', -1)->latest();
+        $sms = Sms::where('status', -1)->get();
 
-        return view('welcome', compact('sms'));
+        $count = count($sms);
+
+        return view('welcome', compact('sms', 'count'));
     }
 
 
-    public function updateFailedSms(Request $request, Sms $sms)
+    public function updateFailedSms($smsid)
     {
+
+        $sms = Sms::find($smsid);
         Core::smsInsertHander($sms);
+
+        return   redirect()->back();
     }
 }

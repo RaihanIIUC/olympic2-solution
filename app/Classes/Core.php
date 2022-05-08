@@ -55,32 +55,41 @@ class Core
     {
         $statusCode =
             $sendChecker['statusCode'];
+        $retry  = ++$sms->retry_count;
 
 
         if ($statusCode == 'S1000') {
             echo 'win';
 
             return   $sms->update([
-                'status' => 1
+                'status' => 1,
+                'retry_count' => $retry
             ]);
         } else {
             echo 'failed';
 
             return  $sms->update([
-                'status' => -1
+                'status' => -1,
+                'retry_count' => $retry
+
             ]);
         }
     }
 
 
+    public static function smsInsertHander($sms)
+    {
+        $sanitizedData =    Core::formatHandler($sms);
+        $sendChecker =     Core::sendRequest($sanitizedData);
+        Core::StatusUpdateHandler($sendChecker, $sms);
+    }
+
     public static function DataCollectors()
     {
-        $smses =  Sms::where('status', '0')->get();
+        $smses =  Sms::where('status', '0')->take(5)->get();
 
         foreach ($smses as $key => $sms) {
-            $sanitizedData =    Core::formatHandler($sms);
-            $sendChecker =     Core::sendRequest($sanitizedData);
-            Core::StatusUpdateHandler($sendChecker, $sms);
+            Core::smsInsertHander($sms);
         }
     }
 }

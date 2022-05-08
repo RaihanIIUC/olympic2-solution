@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Core;
 use App\Models\Sms;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,6 @@ class UploadFailedController extends Controller
 
     public function updateFailedSms(Request $request, Sms $sms)
     {
-        $retry  = ++$sms->retry_count;
-        $sms->update([
-            'retry_count' => $retry,
-        ]);
+        Core::smsInsertHander($sms);
     }
 }

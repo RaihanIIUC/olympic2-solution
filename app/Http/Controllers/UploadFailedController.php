@@ -10,18 +10,32 @@ class UploadFailedController extends Controller
 {
 
 
-    public function FailedIndex()
+    public static  function  FailedIndex()
     {
 
         // pagination requirements
         // orwhere retry count is less than equal 5 requirements
-        $sms = Sms::where('status', -1)->get();
+        $sms = Sms::where('status', -1)->paginate(5) ?? 0;
 
-        $count = count($sms);
+        $total = count($sms) ?? 0;
+        $no_count  = 1;
 
-        return view('welcome', compact('sms', 'count'));
+        return view('welcome', compact('sms', 'total','no_count'));
     }
 
+
+    public  static function  FailsIndex()
+    {
+
+        // pagination requirements
+        // orwhere retry count is less than equal 5 requirements
+        $sms = Sms::where('status', -1)->paginate(5) ?? 0;
+
+        $total = count($sms) ?? 0;
+        $no_count  = 1;
+
+        return view('welcome', compact('sms', 'total','no_count'));
+    }
 
     public function updateFailedSms($smsid)
     {
@@ -31,4 +45,14 @@ class UploadFailedController extends Controller
 
         return   redirect()->back();
     }
+    
+    
+    
+    public function updateFailedSmsAll()
+    {
+         Core::FailedDataRePuller();
+           UploadFailedController::FailsIndex();
+           return redirect()->back();
+    }
+    
 }

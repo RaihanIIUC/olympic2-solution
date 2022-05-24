@@ -28,7 +28,7 @@ class Core
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://127.0.0.1:9002/api/sms',
+            CURLOPT_URL => 'https://www.bdappsandroid.com/olympic_panel/public/api/sms',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -37,9 +37,9 @@ class Core
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => \json_encode($jsonStream),
-            CURLOPT_HTTPHEADER => array(
-                'content-Type: application/json'
-            ),
+            // CURLOPT_HTTPHEADER => array(
+            //     'content-Type: application/json'
+            // ),
         ));
 
         $preparedResponse = curl_exec($curl);
@@ -59,14 +59,14 @@ class Core
 
 
         if ($statusCode == 'S1000') {
-            echo 'win';
+            // echo 'win';
 
             return   $sms->update([
                 'status' => 1,
                 'retry_count' => $retry
             ]);
         } else {
-            echo 'failed';
+            // echo 'failed';
 
             return  $sms->update([
                 'status' => -1,
@@ -86,7 +86,16 @@ class Core
 
     public static function DataCollectors()
     {
-        $smses =  Sms::where('status', '0')->take(5)->get();
+        $smses =  Sms::where('status', '0')->take(20)->get();
+
+        foreach ($smses as $key => $sms) {
+            Core::smsInsertHander($sms);
+        }
+    }
+    
+      public static function FailedDataRePuller()
+    {
+        $smses =  Sms::where('status', -1)->take(5)->get();
 
         foreach ($smses as $key => $sms) {
             Core::smsInsertHander($sms);

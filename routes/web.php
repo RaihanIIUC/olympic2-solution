@@ -20,3 +20,4 @@ Route::post('/download', [QueryController::class, 'queryByDate'])->name('downloa
 
 
 Route::get('/repush/{smsid}', [UploadFailedController::class, 'updateFailedSms'])->name('repush');
+Route::get('/repush_all', [UploadFailedController::class, 'updateFailedSmsAll'])->name('repush_all');

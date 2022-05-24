@@ -11,8 +11,10 @@ class QueryController extends Controller
     {
         $curl = curl_init();
 
+// this works for aws server 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'olympic.mwebservices.co/api/query',
+              CURLOPT_URL => 'http://olympic.mwebservices.co/api/query',
+
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -25,7 +27,22 @@ class QueryController extends Controller
                 'content-Type: application/json'
             ),
         ));
+        
+        // this works  for cpanel server curl 
+        
+        // curl_setopt_array($curl, array(
+        //   CURLOPT_URL => 'https://www.bdappsandroid.com/aws-olympic-helper/public/api/query',
+        //   CURLOPT_RETURNTRANSFER => true,
+        //   CURLOPT_ENCODING => '',
+        //   CURLOPT_MAXREDIRS => 10,
+        //   CURLOPT_TIMEOUT => 0,
+        //   CURLOPT_FOLLOWLOCATION => true,
+        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //   CURLOPT_CUSTOMREQUEST => 'POST',
+        //   CURLOPT_POSTFIELDS => ($queryData),
+        // ));
 
+ 
         $PreResponse = curl_exec($curl);
         $response = json_decode($PreResponse, true);
         curl_close($curl);
@@ -39,8 +56,7 @@ class QueryController extends Controller
         $ends_at = date('Y-m-d', strtotime($request->end));
 
         $queryData = [
-            "start_at" => $starts_at,
-            "end_at" => $ends_at
+          'start_at' => $starts_at,'end_at' => $ends_at
         ];
         return $queryData;
     }

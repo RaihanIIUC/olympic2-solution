@@ -25,6 +25,8 @@ class SmsController extends Controller
         foreach ($sms as $head => $item) {
             SmsController::dataStoreProcess($item);
         }
-        return dd($sms);
+        
+         $no_count = 1;
+        return view('query', compact('sms','no_count'));
     }
 }

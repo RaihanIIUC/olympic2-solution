@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class QueryController extends Controller
 {
+
+  
 
     public static function CurlHandler($queryData)
     {
@@ -54,6 +57,9 @@ class QueryController extends Controller
     {
         $starts_at = date('Y-m-d', strtotime($request->start));
         $ends_at = date('Y-m-d', strtotime($request->end));
+        
+        session()->put('start',$starts_at);
+        session()->put('end',$ends_at);
 
         $queryData = [
           'start_at' => $starts_at,'end_at' => $ends_at

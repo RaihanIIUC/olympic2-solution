@@ -28,7 +28,7 @@
 
 
     <div class="content">
-
+   @livewire('progressbar')
         <div class="container text-left">
             <div class="row justify-content-center">
                 <div class="col-lg-7 border rounded p-4 ">

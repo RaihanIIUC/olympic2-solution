@@ -150,6 +150,7 @@
 
 <body>
     <div class="container">
+    @livewire('progressbar')
         <div class="row">
             <div class="col-12">
                   <a class="btn btn-info" href="{{ url("/") }}">Back to Home</a>

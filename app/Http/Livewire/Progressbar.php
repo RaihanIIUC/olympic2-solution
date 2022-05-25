@@ -11,6 +11,8 @@ class Progressbar extends Component
 {
 
     public $starts, $ends , $sms , $success , $error  , $percentage ;
+     public $title;
+    public $description;
 
     public function render()
     {
@@ -24,8 +26,20 @@ class Progressbar extends Component
 
         $this->error = Sms::where('status', -1)->count();
 
-        $this->percentage = ($this->success / $this->sms) * 100; 
+        if($this->sms != 0){
+                    $this->percentage = ($this->success / $this->sms) * 100; 
+        }
+
 
         return view('livewire.progressbar');
+    }
+
+
+      public function storePost()
+    {
+         
+        // delay  
+        sleep(3);
+         session()->flash('message', 'Post created successfully.');
     }
 }

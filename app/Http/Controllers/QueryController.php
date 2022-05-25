@@ -76,4 +76,28 @@ class QueryController extends Controller
 
         return SmsController::DataForOlympic2Handler($response);
     }
+
+      public static function formatHandler2($start, $end)
+    {
+        $starts_at = date('Y-m-d', strtotime($start));
+        $ends_at = date('Y-m-d', strtotime($end));
+        
+        session()->put('start',$starts_at);
+        session()->put('end',$ends_at);
+
+        $queryData = [
+          'start_at' => $starts_at,'end_at' => $ends_at
+        ];
+        return $queryData;
+    }
+
+
+    public static function queryByDate2($start, $end)
+    {
+        $queryData =   QueryController::formatHandler2($start, $end);
+
+        $response =   QueryController::CurlHandler($queryData);
+
+         SmsController::DataForOlympic2Handler($response);
+    }
 }
